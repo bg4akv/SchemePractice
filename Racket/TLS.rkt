@@ -129,7 +129,28 @@
 (define tup+
   (lambda (tup1 tup2)
     (cond
-      ((and (null? tup1) (null? tup2)) '())
+      ((null? tup1) tup2)
+      ((null? tup2) tup1)
       (else (cons (plus (car tup1) (car tup2)) (tup+ (cdr tup1) (cdr tup2)))))))
 
+(define greater? 
+  (lambda (x y)
+    (cond
+      ((zero? x) #f)
+      ((zero? y) #t)
+      (else (greater? (sub1 x) (sub1 y))))))
 
+(define less? 
+  (lambda (x y)
+    (cond
+      ((zero? y) #f)
+      ((zero? x) #t)
+      (else (less? (sub1 x) (sub1 y))))))
+
+
+(define equal? 
+  (lambda (x y)
+    (cond
+      ((greater? x y) #f)
+      ((less? x y) #f)
+      (else #t))))
