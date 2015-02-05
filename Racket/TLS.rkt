@@ -147,10 +147,48 @@
       ((zero? x) #t)
       (else (less? (sub1 x) (sub1 y))))))
 
-
 (define equal? 
   (lambda (x y)
     (cond
       ((greater? x y) #f)
       ((less? x y) #f)
       (else #t))))
+
+(define exp
+  (lambda (x y)
+    (cond
+      ((zero? y) 1)
+      (else (times x (exp x (sub1 y)))))))
+
+(define division
+  (lambda (x y)
+    (cond
+      ((less? x y) 0)
+      (else (add1 (division (minus x y) y))))))
+
+(define length
+  (lambda (lat)
+    (cond
+      ((null? lat) 0)
+      (else (add1 (length (cdr lat)))))))
+
+(define pick
+  (lambda (n lat)
+    (cond
+      ((zero? (sub1 n)) (car lat))
+      (else (pick (sub1 n) (cdr lat))))))
+
+(define rempick
+  (lambda (n lat)
+    (cond
+      ((zero? (sub1 n)) (cdr lat))
+      (else (cons (car lat) (rempick (sub1 n) (cdr lat)))))))
+
+(define no-nums
+  (lambda (lat)
+    (cond
+      ((null? lat) '())
+      ((number? (car lat)) (no-nums (cdr lat)))
+      (else (cons (car lat) (no-nums (cdr lat)))))))
+
+(no-nums '(1 3 ))
