@@ -191,4 +191,68 @@
       ((number? (car lat)) (no-nums (cdr lat)))
       (else (cons (car lat) (no-nums (cdr lat)))))))
 
-(no-nums '(1 3 ))
+(define all-nums
+  (lambda (lat)
+    (cond
+      ((null? lat) '())
+      ((number? (car lat)) (cons (car lat) (all-nums (cdr lat))))
+      (else (all-nums (cdr lat))))))
+
+(define eqan?
+  (lambda (x y)
+    (cond
+      ((and (number? x) (number? x)) (equal? x y))
+      ((or (number? x) (number? x)) #f)
+      (else (eq? x y)))))
+
+(define occur
+  (lambda (a lat)
+    (cond
+      ((null? lat) 0)
+      ((eq? a (car lat)) (add1 (occur a (cdr lat))))
+      (else (occur a (cdr lat))))))
+
+(define one?
+  (lambda (x)
+    (cond
+      ((zero? x) #f)
+      (else (zero? (sub1 x))))))
+
+(define rempick2
+  (lambda (n lat)
+    (cond
+      ((one? n) (cdr lat))
+      (else (cons (car lat) (rempick2 (sub1 n) (cdr lat)))))))
+
+(define rember*
+  (lambda (a l)
+    (cond
+      ((null? l) '())
+      ((atom? (car l))
+        (cond
+          ((eq? a (car l)) (rember* a (cdr l)))
+          (else (cons (car l) (rember* a (cdr l))))))
+      (else (cons (rember* a (car l)) (rember* a (cdr l)))))))
+
+
+(define insertR*
+  (lambda (new old l)
+    (cond
+      ((null? l) '())
+      ((atom? (car l))
+        (cond
+          ((eq? old (car l)) (cons old (cons new (insertR* new old (cdr l)))))
+          (else (cons (car l) (insertR* new old (cdr l))))))
+      (else (cons (insertR* new old (car l)) (insertR* new old (cdr l)))))))
+
+
+(define occur*
+  (lambda (a l)
+    (cond
+      ((null? l) 0)
+      ((atom? (car l))
+        (cond
+          ((eq? a (car l)) (add1 (occur* a (cdr l))))
+          (else (occur* a (cdr l)))))
+      (else (plus (occur* a (car l)) (occur* a (cdr l)))))))
+
