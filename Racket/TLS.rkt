@@ -305,3 +305,11 @@
       ((or (atom? (car l1)) (atom? (car l2))) #f)
       (else (and (eqlist? (car l1) (car l2)) (eqlist? (cdr l1) (cdr l2)))))))
 
+
+(define value
+  (lambda (nexp)
+    (cond
+      ((atom? nexp) nexp)
+      ((eq? (car (cdr nexp)) '+) (plus (value (car nexp)) (value (car (cdr (cdr nexp))))))
+      ((eq? (car (cdr nexp)) '*) (times (value (car nexp)) (value (car (cdr (cdr nexp))))))
+      (else (exp (value (car nexp)) (value (car (cdr (cdr nexp)))))))))
