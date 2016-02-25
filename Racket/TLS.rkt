@@ -313,3 +313,9 @@
       ((eq? (car (cdr nexp)) '+) (plus (value (car nexp)) (value (car (cdr (cdr nexp))))))
       ((eq? (car (cdr nexp)) '*) (times (value (car nexp)) (value (car (cdr (cdr nexp))))))
       (else (exp (value (car nexp)) (value (car (cdr (cdr nexp)))))))))
+
+
+
+
+
+
